@@ -23,7 +23,7 @@ def mostrar():
         con = conectar()
         cursor = cn.cursor()
         sentencia_sql = '''
-        SELECT * FROM contactos
+        SELECT * FROM contacto
         '''
         cursor.execute(sentencia_sql)
         datos = cursor.fatchall()
@@ -32,3 +32,30 @@ def mostrar():
         print('Ha ocurrido un error: ',err)
 
 
+def modificar(id, nombre, apellido, empresa, telefono, email, direccion):
+    try:
+        con = conectar()
+        cursor = con.cursor()
+        sentencia_sql = ''' UPDATE contacto SET nombre=?, apellido=?, empresa=?, telefono=?, email=?, direccion=? 
+        WHERE id=? '''
+        datos =(nombre, apellido, empresa, telefono, email, direccion, id)
+        cursor.execute(sentencia_sql)
+        con.commit()
+        con.close()
+        return "Se actualizo correctamente"
+    except sqlite3.Error as err:
+        print("Ha ocurrido un error al actualizar los datos: ", err)
+
+
+def eliminar(id):
+    try:
+        con = conectar()
+        cursor = con.cursor()
+        sentencia_sql = ''' DELETE FROM contacto WHERE id =? '''
+        cursor.execute(sentencia_sql)
+        con.commit()
+        con.close()
+        return "Se ha borrado exitosamente"
+    except sqlite3.Error as err:
+        print ("Ha ocurrido un error al borrar: ", err)
+        
