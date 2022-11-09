@@ -51,10 +51,11 @@ def modificar(id, nombre, apellido, empresa, telefono, email, direccion):
     try:
         con = conectar()
         cursor = con.cursor()
-        sentencia_sql = ''' UPDATE contacto SET nombre=?, apellido=?, empresa=?, telefono=?, email=?, direccion=? 
+        sentencia_sql = ''' UPDATE contacto SET nombre=?, apellido=?, 
+        empresa=?, telefono=?, email=?, direccion=? 
         WHERE id=? '''
-        datos =(nombre, apellido, empresa, telefono, email, direccion, id)
-        cursor.execute(sentencia_sql)
+        datos = (nombre, apellido, empresa, telefono, email, direccion, id)
+        cursor.execute(sentencia_sql, datos)
         con.commit()
         con.close()
         return "Se actualizo correctamente"
@@ -67,7 +68,7 @@ def eliminar(id):
         con = conectar()
         cursor = con.cursor()
         sentencia_sql = ''' DELETE FROM contacto WHERE id =? '''
-        cursor.execute(sentencia_sql)
+        cursor.execute(sentencia_sql,(id,) )
         con.commit()
         con.close()
         return "Se ha borrado exitosamente"
