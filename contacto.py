@@ -21,16 +21,31 @@ def mostrar():
     datos = []
     try: 
         con = conectar()
-        cursor = cn.cursor()
+        cursor = con.cursor()
         sentencia_sql = '''
         SELECT * FROM contacto
         '''
         cursor.execute(sentencia_sql)
-        datos = cursor.fatchall()
+        datos = cursor.fetchall()
         con.close()
-    except data.Error as err:
+    except sqlite3.Error as err:
         print('Ha ocurrido un error: ',err)
+    return datos
 
+def buscar(id):
+    datos = []
+    try: 
+        con = conectar()
+        cursor = con.cursor()
+        sentencia_sql = ''' 
+        SELECT * FROM contacto WHERE id=?
+        '''
+        cursor.execute(sentencia_sql,(id,))
+        datos = cursor.fetchall()
+        con.close()
+    except sqlite3.Error as err:
+        print('Ha ocurrido un error: ',err)
+    return datos
 
 def modificar(id, nombre, apellido, empresa, telefono, email, direccion):
     try:
